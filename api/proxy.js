@@ -1,16 +1,19 @@
 /**
  * Vercel Serverless Function - Mercadona API Proxy
- * Catch-all route that handles /api/mercadona/*
+ * Single endpoint that proxies requests to Mercadona's API
+ * Usage: /api/proxy?endpoint=categories&lang=es&wh=08001
  * @param {any} req
  * @param {any} res
  * @returns {Promise<any>}
  */
 export default async function handler(req, res) {
+  // Set CORS headers
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
   // Handle CORS preflight
   if (req.method === 'OPTIONS') {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
     return res.status(200).end();
   }
 
@@ -20,20 +23,21 @@ export default async function handler(req, res) {
   }
 
   try {
-    // Get the path from catch-all route (automatically set by Vercel)
-    const pathSegments = req.query.path;
-    const apiPath = Array.isArray(pathSegments) ? pathSegments.join('/') : pathSegments || '';
-
-    // Build query string excluding 'path' param
-    const queryParams = new URLSearchParams();
-    for (const [key, value] of Object.entries(req.query)) {
-      if (key !== 'path') {
-        queryParams.append(key, String(value));
-      }
+    // Get the endpoint path from query params
+    const { endpoint, ...queryParams } = req.query;
+    
+    if (!endpoint) {
+      return res.status(400).json({ error: 'Missing endpoint parameter' });
     }
 
-    const queryString = queryParams.toString();
-    const url = `https://tienda.mercadona.es/api/${apiPath}${queryString ? '?' + queryString : ''}`;
+    // Build query string
+    const params = new URLSearchParams();
+    for (const [key, value] of Object.entries(queryParams)) {
+      params.append(key, String(value));
+    }
+
+    const queryString = params.toString();
+    const url = `https://tienda.mercadona.es/api/${endpoint}${queryString ? '?' + queryString : ''}`;
 
     const response = await fetch(url, {
       headers: {
@@ -50,9 +54,7 @@ export default async function handler(req, res) {
 
     const data = await response.json();
 
-    res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Cache-Control', 's-maxage=300, stale-while-revalidate=600');
-
     return res.status(200).json(data);
   } catch (error) {
     console.error('Proxy error:', error);

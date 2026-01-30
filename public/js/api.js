@@ -2,15 +2,15 @@
  * API Service - Handles all Mercadona API communications
  */
 
-const BASE_URL = '/api/mercadona';
+const PROXY_URL = '/api/proxy';
 
 /**
  * Fetch all categories from Mercadona
  * @param {string} postalCode
- * @returns {Promise<Array<{id: number, name: string, categories?: Array}>>}
+ * @returns {Promise<Array<{id: number, name: string, categories?: Array<any>}>>}
  */
 export async function fetchCategories(postalCode) {
-  const url = `${BASE_URL}/categories/?lang=es&wh=${postalCode}`;
+  const url = `${PROXY_URL}?endpoint=categories/&lang=es&wh=${postalCode}`;
   const response = await fetch(url);
   
   if (!response.ok) {
@@ -25,10 +25,10 @@ export async function fetchCategories(postalCode) {
  * Fetch products for a specific category
  * @param {number|string} categoryId
  * @param {string} postalCode
- * @returns {Promise<{categories?: Array}|null>}
+ * @returns {Promise<{categories?: Array<any>}|null>}
  */
 export async function fetchCategoryProducts(categoryId, postalCode) {
-  const url = `${BASE_URL}/categories/${categoryId}?lang=es&wh=${postalCode}`;
+  const url = `${PROXY_URL}?endpoint=categories/${categoryId}&lang=es&wh=${postalCode}`;
   const response = await fetch(url);
   
   if (!response.ok) {
