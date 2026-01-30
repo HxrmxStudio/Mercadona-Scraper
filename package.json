@@ -1,0 +1,21 @@
+{
+  "name": "mercadona-scraper",
+  "version": "1.0.0",
+  "description": "Mercadona product scraper with clean architecture and Vercel deployment",
+  "type": "module",
+  "scripts": {
+    "dev": "vercel dev",
+    "build": "echo 'Static site - no build needed'",
+    "lint": "eslint public/js/**/*.js api/**/*.js",
+    "lint:fix": "eslint public/js/**/*.js api/**/*.js --fix",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": ["mercadona", "scraper", "products", "vercel"],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^8.57.0",
+    "typescript": "^5.3.3",
+    "vercel": "^33.0.0"
+  }
+}

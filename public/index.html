@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Extrae productos de Mercadona para actualizar precios en tu sistema">
+  <title>Mercadona Product Scraper</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>🛒 Mercadona Product Scraper</h1>
+      <p class="subtitle">Extrae todos los productos de Mercadona para actualizar precios en tu sistema</p>
+    </header>
+
+    <div class="controls">
+      <div class="form-group">
+        <label for="postalCode">Código Postal (para disponibilidad regional)</label>
+        <input type="text" id="postalCode" placeholder="Ej: 08001" value="08001">
+      </div>
+
+      <div class="form-group">
+        <label for="categoryFilter">Filtrar por Categoría (opcional)</label>
+        <select id="categoryFilter">
+          <option value="">Todas las categorías</option>
+          <option value="1">Frutas y verduras</option>
+          <option value="2">Carnicería y charcutería</option>
+          <option value="3">Pescadería</option>
+          <option value="4">Panadería y pastelería</option>
+          <option value="5">Lácteos y huevos</option>
+          <option value="6">Congelados</option>
+          <option value="7">Despensa</option>
+          <option value="8">Bebidas</option>
+          <option value="9">Limpieza y hogar</option>
+          <option value="10">Perfumería e higiene</option>
+        </select>
+      </div>
+
+      <div class="button-group">
+        <button id="startBtn">
+          <span id="btnText">🚀 Iniciar Extracción</span>
+        </button>
+        <button class="secondary" id="stopBtn" disabled>
+          ⏸️ Detener
+        </button>
+        <button class="success" id="exportBtn" disabled>
+          📥 Exportar CSV
+        </button>
+      </div>
+    </div>
+
+    <div class="stats">
+      <div class="stat-card">
+        <div class="stat-value" id="totalProducts">0</div>
+        <div class="stat-label">Productos Extraídos</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="totalCategories">0</div>
+        <div class="stat-label">Categorías Procesadas</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="avgPrice">0€</div>
+        <div class="stat-label">Precio Promedio</div>
+      </div>
+    </div>
+
+    <div class="status" id="statusContainer" style="display: none;">
+      <div id="statusMessage"></div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressBar"></div>
+      </div>
+    </div>
+
+    <div class="products-table">
+      <div class="table-header">
+        <div class="table-title">📊 Productos Extraídos</div>
+        <input type="text" class="search-box" id="searchBox" placeholder="Buscar producto...">
+      </div>
+      <div class="table-wrapper">
+        <table id="productsTable">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Imagen</th>
+              <th>Nombre</th>
+              <th>Categoría</th>
+              <th>Precio</th>
+              <th>Precio/Unidad</th>
+              <th>Formato</th>
+              <th>Disponible</th>
+            </tr>
+          </thead>
+          <tbody id="productsBody">
+            <tr>
+              <td colspan="8">
+                <div class="empty-state">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <path d="M12 6v6l4 2"/>
+                  </svg>
+                  <div>No hay productos extraídos aún</div>
+                  <div style="font-size: 14px; margin-top: 10px;">Haz clic en "Iniciar Extracción" para comenzar</div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="/js/main.js"></script>
+</body>
+</html>
