@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vercel dev",
     "build": "echo 'Static site - no build needed'",
-    "lint": "eslint public/js/**/*.js api/**/*.js",
+    "lint": "eslint public/js/**/*.js 'api/**/*.js'",
     "lint:fix": "eslint public/js/**/*.js api/**/*.js --fix",
     "typecheck": "tsc --noEmit"
   },

@@ -1,5 +1,6 @@
 /**
  * Vercel Serverless Function - Mercadona API Proxy
+ * Catch-all route that handles /api/mercadona/*
  * @param {any} req
  * @param {any} res
  * @returns {Promise<any>}
@@ -19,7 +20,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    // Get the path from query params (set by vercel.json rewrite)
+    // Get the path from catch-all route (automatically set by Vercel)
     const pathSegments = req.query.path;
     const apiPath = Array.isArray(pathSegments) ? pathSegments.join('/') : pathSegments || '';
 

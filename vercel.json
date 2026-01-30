@@ -1,7 +1,4 @@
 {
-  "rewrites": [
-    { "source": "/api/mercadona/:path*", "destination": "/api/mercadona" }
-  ],
   "headers": [
     {
       "source": "/api/(.*)",
